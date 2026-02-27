@@ -34,11 +34,21 @@ jobs:
 
       - name: Deploy or Update Repo
         run: |
-          # 1. Try to get the repo status
-          if databricks repos get "$REPOSITORY_PATH" > /dev/null 2>&1; then
-            echo "Repo exists at $REPOSITORY_PATH. Updating to latest main..."
-            databricks repos update "$REPOSITORY_PATH" --branch "main"
+          # Define the specific target path
+          # Ensure this matches your workspace structure: /Workspace/Users/<email>/<dir-name>
+          REPOSITORY_PATH="/Workspace/Users/${{ env.COMMIT_AUTHOR_EMAIL }}/databricks-ingestion-platform"
+          
+          echo "Checking for repo at: $REPOSITORY_PATH"
+
+          # 1. Check if the repo exists
+          if databricks repos get --path "$REPOSITORY_PATH" > /dev/null 2>&1; then
+            echo "Repo exists. Updating to latest main..."
+            databricks repos update --path "$REPOSITORY_PATH" --branch "main"
           else
-            echo "Repo not found. Creating new repo at $REPOSITORY_PATH..."
-            databricks repos create "$REPO_URL" git-provider "gitHub" --path "$REPOSITORY_PATH"
+            echo "Repo not found. Creating new repo..."
+            # Using --provider "gitHub" (with the double dash) fixes the '3 args' error
+            databricks repos create \
+              --url "$REPO_URL" \
+              --provider "gitHub" \
+              --path "$REPOSITORY_PATH"
           fi
