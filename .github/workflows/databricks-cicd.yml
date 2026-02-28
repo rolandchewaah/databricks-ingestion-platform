@@ -38,7 +38,7 @@ jobs:
 
       - name: Extract branch name
         id: extract_branch
-        run: echo "branch=$(echo ${GITHUB_REF#refs/head/})" >> $GITHUB_OUPUT
+        run: echo "branch=$(echo ${GITHUB_REF#refs/head/})" >> GITHUB_OUTPUT
 
       - name: Deploy or Update Repo
         run: |
