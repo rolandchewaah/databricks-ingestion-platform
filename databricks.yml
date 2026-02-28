@@ -15,7 +15,6 @@ targets:
     workspace:
       host: ${DATABRICKS_HOST}
       # This dynamically creates a path like: /Users/user@email.com/.bundle/my-databricks-project/dev
-      root_path: /Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform
 
 resources:
   jobs:
