@@ -29,11 +29,7 @@ jobs:
 
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
-
-      - name: Extract branch name
-        id: extract_branch
-        run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_OUTPUT"
-
+        
       - name: Debug Databricks auth (safe)
         shell: bash
         run: |
