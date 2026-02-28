@@ -18,9 +18,6 @@ jobs:
       # The workspace repo path where Databricks Repo will live
       REPOSITORY_PATH: /Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform
 
-      # Your GitHub repo HTTPS URL (recommended to store as a secret if private)
-      GIT_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
