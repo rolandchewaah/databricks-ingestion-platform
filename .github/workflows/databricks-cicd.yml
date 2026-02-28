@@ -44,7 +44,7 @@ jobs:
         run: |
           # Define the specific target path
           # Ensure this matches your workspace structure: /Workspace/Users/<email>/<dir-name>
-          REPOSITORY_PATH="/Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform"
+          # REPOSITORY_PATH="/Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform"
           
           echo "Checking for repo at: $REPOSITORY_PATH"
 
