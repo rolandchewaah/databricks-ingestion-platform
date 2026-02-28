@@ -10,6 +10,7 @@ on:
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
+    environment: development
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_DEV }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_DEV }}
@@ -22,21 +23,28 @@ jobs:
         with:
           fetch-depth: 0 # Ensures we can read the git log for the email
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+
       - name: Extract Commit Author Email and set REPOSITORY_PATH
         id: vars
         run: |
           AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')
           # Clean email (replaces dots/special chars if needed, though usually not required for paths)
-          echo "REPOSITORY_PATH=/Workspace/Users/$AUTHOR_EMAIL/databricks-repo" >> $GITHUB_ENV
+          echo "REPOSITORY_PATH=/Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform" >> $GITHUB_ENV
 
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "branch=$(echo ${GITHUB_REF#refs/head/})" >> $GITHUB_OUPUT
 
       - name: Deploy or Update Repo
         run: |
           # Define the specific target path
           # Ensure this matches your workspace structure: /Workspace/Users/<email>/<dir-name>
-          REPOSITORY_PATH="/Workspace/Users/${{ env.COMMIT_AUTHOR_EMAIL }}/databricks-ingestion-platform"
+          REPOSITORY_PATH="/Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform"
           
           echo "Checking for repo at: $REPOSITORY_PATH"
 
@@ -46,9 +54,4 @@ jobs:
             databricks repos update --path "$REPOSITORY_PATH" --branch "main"
           else
             echo "Repo not found. Creating new repo..."
-            # Using --provider "gitHub" (with the double dash) fixes the '3 args' error
-            databricks repos create \
-              --url "$REPO_URL" \
-              --provider "gitHub" \
-              --path "$REPOSITORY_PATH"
-          fi
+            
