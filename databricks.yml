@@ -1,5 +1,5 @@
 bundle:
-  name: my-databricks-project
+  name: dev-deploy
 
 # Define the resources to deploy (Notebooks, SQL files, etc.)
 artifacts:
@@ -11,10 +11,6 @@ artifacts:
 targets:
   # Dev Environment configuration
   dev:
-    default: true
-    workspace:
-      host: ${DATABRICKS_HOST}
-      # This dynamically creates a path like: /Users/user@email.com/.bundle/my-databricks-project/dev
 
 resources:
   jobs:
