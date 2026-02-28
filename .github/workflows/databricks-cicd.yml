@@ -31,7 +31,7 @@ jobs:
         run: |
           AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')
           # Clean email (replaces dots/special chars if needed, though usually not required for paths)
-          echo "REPOSITORY_PATH=/Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform" >> $GITHUB_ENV
+          # echo "REPOSITORY_PATH=/Workspace/Users/rollux2013@gmail.com/databricks-ingestion-platform" >> $GITHUB_ENV
 
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
